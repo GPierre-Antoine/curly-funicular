@@ -35,7 +35,7 @@ void assignValues(int argc, char ** argv){
         throw std::invalid_argument(usage());
     }
 
-    srand(time(NULL));
+    srand(time(nullptr));
     success_rate = stoi(arguments[0]);
     attempt_count_per_session = stoi(arguments[1]);
     
