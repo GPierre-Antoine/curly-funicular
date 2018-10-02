@@ -12,11 +12,23 @@ void create_table_tasks(pqxx::connection &connection)
     w.commit();
 }
 
+void create_table_tasks_recursion(pqxx::connection &connection)
+{
+    pqxx::work w(connection);
+    w.exec("CREATE TABLE tasks_recursion ( "
+           "  task_parent BIGINT NOT NULL references tasks (task_id), "
+           "  task_child  BIGINT NOT NULL references tasks (task_id),"
+           "  PRIMARY KEY (task_parent, task_child)"
+           ")");
+    w.commit();
+}
+
 void insert_dummy_tuple(pqxx::connection &connection, const std::string &name)
 {
     pqxx::work w(connection);
     w.exec("INSERT INTO tasks( task_name ) "
-           "VALUES ('" + name + "')");
+           "VALUES ('" + name + "') "
+           "RETURNING task_id");
     w.commit();
 }
 
@@ -24,9 +36,11 @@ void insert_dummy_tuple(pqxx::connection &connection, const std::string &name)
 void insert_dummy_prepared_tuple(pqxx::connection &connection, const std::string &name)
 {
     connection.prepare("mystatement", "INSERT INTO tasks( task_name ) "
-                                      "VALUES ($1)");
+                                      "VALUES ($1)"
+                                      "RETURNING task_id");
     pqxx::work w(connection);
-    w.prepared("mystatement")(name).exec();
+    auto result = w.prepared("mystatement")(name).exec();
+    std::cout << result[0][0] << std::endl;
     w.commit();
 }
 
@@ -51,7 +65,7 @@ int main()
 //        selectTuple(c);
 //        create_table_tasks(c);
 //        insert_dummy_tuple(c,"Yo momma so fat");
-        insert_dummy_prepared_tuple(c, "Yo momma so fat 2");
+        insert_dummy_prepared_tuple(c, "Yo momma so fat 4");
 
 
     }
