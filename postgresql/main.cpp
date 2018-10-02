@@ -32,7 +32,6 @@ void insert_dummy_tuple(pqxx::connection &connection, const std::string &name)
     w.commit();
 }
 
-
 void insert_dummy_prepared_tuple(pqxx::connection &connection, const std::string &name)
 {
     connection.prepare("mystatement", "INSERT INTO tasks( task_name ) "
@@ -43,7 +42,6 @@ void insert_dummy_prepared_tuple(pqxx::connection &connection, const std::string
     std::cout << result[0][0] << std::endl;
     w.commit();
 }
-
 
 void selectTuple(pqxx::connection &connection)
 {
