@@ -16,8 +16,8 @@ void create_table_tasks_recursion(pqxx::connection &connection)
 {
     pqxx::work w(connection);
     w.exec("CREATE TABLE tasks_recursion ( "
-           "  task_parent BIGINT NOT NULL references tasks (task_id), "
-           "  task_child  BIGINT NOT NULL references tasks (task_id),"
+           "  task_parent BIGINT NOT NULL REFERENCES tasks (task_id) ON DELETE CASCADE, "
+           "  task_child  BIGINT NOT NULL REFERENCES tasks (task_id) ON DELETE CASCADE, "
            "  PRIMARY KEY (task_parent, task_child)"
            ")");
     w.commit();
