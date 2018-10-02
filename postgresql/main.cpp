@@ -28,7 +28,7 @@ void insert_dummy_tuple(pqxx::connection &connection, const std::string &name)
     pqxx::work w(connection);
     w.exec("INSERT INTO tasks( task_name ) "
            "VALUES ('" + name + "') "
-           "RETURNING task_id");
+                                "RETURNING task_id");
     w.commit();
 }
 
@@ -38,7 +38,7 @@ void insert_dummy_prepared_tuple(pqxx::connection &connection, const std::string
                                       "VALUES ($1)"
                                       "RETURNING task_id");
     pqxx::work w(connection);
-    auto result = w.prepared("mystatement")(name).exec();
+    auto       result = w.prepared("mystatement")(name).exec();
     std::cout << result[0][0] << std::endl;
     w.commit();
 }
@@ -52,7 +52,27 @@ void selectTuple(pqxx::connection &connection)
             "WHERE task_id>0"
     );
 
-    std::cout << r[0][0].as<std::__cxx11::string>() << std::endl;
+    std::cout << r[0][0].as<std::string>() << std::endl;
+}
+
+
+void selectRecursiveTuple(pqxx::connection &connection)
+{
+    pqxx::work   w(connection);
+    pqxx::result r = w.exec(
+            "WITH RECURSIVE recursion(ancestor, descendant) AS ( "
+            "  SELECT task_parent, task_child FROM tasks_recursion "
+            "  UNION ALL "
+            "      SELECT ancestor, task_child FROM tasks_recursion, recursion WHERE task_parent= descendant "
+            ") "
+            "SELECT ancestor, task_id, task_name FROM recursion "
+            "JOIN tasks ON descendant=task_id"
+    );
+
+    for (const auto &i: r)
+    {
+        std::cout << "Task #" << i[0].as<int>() << " has descendant #" << i[1].as<int>() << " with title «" << i[2].as<std::string>() << "»\n";
+    }
 }
 
 int main()
@@ -63,8 +83,8 @@ int main()
 //        selectTuple(c);
 //        create_table_tasks(c);
 //        insert_dummy_tuple(c,"Yo momma so fat");
-        insert_dummy_prepared_tuple(c, "Yo momma so fat 4");
-
+//        insert_dummy_prepared_tuple(c, "Yo momma so fat 4");
+        selectRecursiveTuple(c);
 
     }
     catch (const std::exception &e)
