@@ -9,5 +9,7 @@ add_executable(kobe kobe/kobe.cpp)
 add_executable(test_ncurses test_curses/main.cpp)
 target_link_libraries(test_ncurses ncurses)
 
+add_executable(wrap_socket wrap_socket/main.cpp wrap_socket/networking/socket.cpp wrap_socket/networking/socket.h wrap_socket/networking/networking_error.h wrap_socket/networking/socket_factory.cpp wrap_socket/networking/socket_factory.h wrap_socket/networking/internal/socket_option.cpp wrap_socket/networking/internal/socket_option.h)
+
 add_executable(pgtest postgresql/main.cpp)
 target_link_libraries(pgtest pqxx)
