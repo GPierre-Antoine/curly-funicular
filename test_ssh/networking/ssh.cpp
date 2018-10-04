@@ -27,14 +27,26 @@ networking::ssh::ssh()
     }
 }
 
-void networking::ssh::connect()
+void networking::ssh::connect(const std::string &hostname)
 {
-    ssh_options_set(session, SSH_OPTIONS_HOST, options.host.c_str());
-    ssh_options_set(session, SSH_OPTIONS_LOG_VERBOSITY, &options.verbosity);
-    ssh_options_set(session, SSH_OPTIONS_PORT, &options.port);
-    rc = ssh_connect(session);
+    set_ssh_options(hostname);
+    actually_connect_ssh();
+    authenticate();
+}
+
+void networking::ssh::actually_connect_ssh()
+{
+    this->rc = ssh_connect(this->session);
     checkException();
     options.connected = true;
+}
+
+void networking::ssh::set_ssh_options(const std::string &hostname)
+{
+    options.host = hostname;
+    ssh_options_set(this->session, SSH_OPTIONS_HOST, this->options.host.c_str());
+    ssh_options_set(this->session, SSH_OPTIONS_LOG_VERBOSITY, &this->options.verbosity);
+    ssh_options_set(this->session, SSH_OPTIONS_PORT, &this->options.port);
 }
 
 
@@ -55,5 +67,5 @@ void networking::ssh::disconnect()
 
 void networking::ssh::authenticate()
 {
-
+    options.authenticated = true;
 }

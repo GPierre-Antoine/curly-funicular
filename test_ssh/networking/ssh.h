@@ -7,18 +7,11 @@
 
 #include <string>
 #include <libssh/libssh.h>
+#include "internal/ssh_options.h"
 
 
 namespace networking
 {
-    typedef struct ssh_options_struct
-    {
-        std::string host;
-        int         verbosity;
-        int         port;
-        bool connected;
-    } ssh_options;
-
     class ssh
     {
         ssh_session           session = nullptr;
@@ -26,11 +19,16 @@ namespace networking
         internal::ssh_options options{};
 
         void checkException() const;
+        void set_ssh_options(const std::string & hostname);
+        void actually_connect_ssh();
+        void authenticate();
     public:
         ssh();
-        void connect();
-        void authenticate();
+
+        void connect(const std::string & hostname);
+
         void disconnect();
+
         ~ssh();
     };
 
