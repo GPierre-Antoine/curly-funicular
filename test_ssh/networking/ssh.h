@@ -21,9 +21,10 @@ namespace networking
 
     class ssh
     {
-        ssh_session session = nullptr;
-        int         rc      = 0;
-        ssh_options options{};
+        ssh_session           session = nullptr;
+        int                   rc      = 0;
+        internal::ssh_options options{};
+
         void checkException() const;
     public:
         ssh();
