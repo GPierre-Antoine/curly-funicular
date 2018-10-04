@@ -15,4 +15,4 @@ add_executable(pgtest postgresql/main.cpp)
 target_link_libraries(pgtest pqxx)
 
 add_executable(test_ssh test_ssh/main.cpp)
-target_link_libraries(test_ssh ssh2)
+target_link_libraries(test_ssh ssh)

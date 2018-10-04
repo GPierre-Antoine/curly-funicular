@@ -1,5 +1,5 @@
 #include <iostream>
-#include <libssh2.h>
+#include <libssh/libssh.h>
 
 int main(){
     std::cout << "Hello world !";
