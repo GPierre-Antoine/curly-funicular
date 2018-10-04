@@ -11,7 +11,8 @@ namespace networking
 {
     class networking_error : public std::runtime_error
     {
-
+    public:
+        networking_error(const std::string &);
     };
 }
 

@@ -9,10 +9,10 @@ add_executable(kobe kobe/kobe.cpp)
 add_executable(test_ncurses test_curses/main.cpp)
 target_link_libraries(test_ncurses ncurses)
 
-add_executable(wrap_socket wrap_socket/main.cpp wrap_socket/networking/socket.cpp wrap_socket/networking/socket.h wrap_socket/networking/networking_error.h wrap_socket/networking/socket_factory.cpp wrap_socket/networking/socket_factory.h wrap_socket/networking/internal/socket_option.cpp wrap_socket/networking/internal/socket_option.h)
+add_executable(wrap_socket wrap_socket/main.cpp wrap_socket/networking/socket.cpp wrap_socket/networking/socket.h networking/networking_error.h networking/networking_error.cpp wrap_socket/networking/socket_factory.cpp wrap_socket/networking/socket_factory.h wrap_socket/networking/internal/socket_option.cpp wrap_socket/networking/internal/socket_option.h)
 
 add_executable(pgtest postgresql/main.cpp)
 target_link_libraries(pgtest pqxx)
 
-add_executable(test_ssh test_ssh/main.cpp)
+add_executable(test_ssh test_ssh/main.cpp test_ssh/networking/ssh.cpp test_ssh/networking/ssh.h networking/networking_error.h networking/networking_error.cpp)
 target_link_libraries(test_ssh ssh)
