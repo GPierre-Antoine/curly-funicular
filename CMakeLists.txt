@@ -16,3 +16,6 @@ target_link_libraries(pgtest pqxx)
 
 add_executable(test_ssh test_ssh/main.cpp test_ssh/networking/ssh.cpp test_ssh/networking/ssh.h networking/networking_error.h networking/networking_error.cpp)
 target_link_libraries(test_ssh ssh)
+
+
+add_executable(revisions revisions/main.cpp revisions/main.cpp)
