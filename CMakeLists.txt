@@ -18,4 +18,4 @@ add_executable(test_ssh test_ssh/main.cpp test_ssh/networking/ssh.cpp test_ssh/n
 target_link_libraries(test_ssh ssh)
 
 
-add_executable(revisions revisions/main.cpp revisions/main.cpp)
+add_executable(revisions revisions/main.cpp revisions/main.cpp revisions/avl/node.cpp revisions/avl/node.h revisions/avl/node_finder.cpp revisions/avl/node_finder.h)
