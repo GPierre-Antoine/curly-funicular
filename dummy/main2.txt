@@ -1,0 +1,23 @@
+
+main.o:     format de fichier elf64-x86-64
+
+
+Déassemblage de la section .text :
+
+0000000000000000 <_Z14dummy_functionb>:
+   0:	55                   	push   %rbp
+   1:	48 89 e5             	mov    %rsp,%rbp
+   4:	89 f8                	mov    %edi,%eax
+   6:	88 45 fc             	mov    %al,-0x4(%rbp)
+   9:	0f b6 45 fc          	movzbl -0x4(%rbp),%eax
+   d:	5d                   	pop    %rbp
+   e:	c3                   	retq   
+
+000000000000000f <main>:
+   f:	55                   	push   %rbp
+  10:	48 89 e5             	mov    %rsp,%rbp
+  13:	bf 00 00 00 00       	mov    $0x0,%edi
+  18:	e8 00 00 00 00       	callq  1d <main+0xe>
+  1d:	90                   	nop
+  1e:	5d                   	pop    %rbp
+  1f:	c3                   	retq   
